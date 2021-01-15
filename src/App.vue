@@ -12,7 +12,7 @@
 <script>
 // import { ref } from 'vue';  // ref can work with a string and a number and requires .value
 
-import { reactive } from 'vue'; // reactive works only with an object and doesn't require .value
+import { reactive, toRefs } from 'vue'; // reactive works only with an object and doesn't require .value
 export default {
   //   data() {
   //     return {
@@ -29,6 +29,8 @@ export default {
       age: 35
     });
 
+    const userRefs = toRefs(user);
+
     setTimeout(() => {
       //   uName.value = 'Alex';
       //   uAge.value++;
@@ -43,7 +45,9 @@ export default {
       //   userAge: uAge
       //   userName: user.value.name,
       //   userAge: user.value.age,
-      user: user
+      user: user,
+      userName: userRefs.name,
+      userAge: userRefs.age
     };
   }
 };
