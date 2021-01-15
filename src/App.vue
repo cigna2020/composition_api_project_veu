@@ -1,18 +1,20 @@
 <template>
-  <section class="container">
+  <!-- <section class="container">
     <h2>{{ userName }}</h2>
     <h3>{{ userAge }}</h3>
-  </section>
+  </section> -->
   <section class="container">
     <h2>{{ user.name }}</h2>
     <h3>{{ user.age }}</h3>
+    <!-- <button @click="user.age++">+1 Age</button> -->
+    <button @click="setAge">+1 Age</button>
   </section>
 </template>
 
 <script>
 // import { ref } from 'vue';  // ref can work with a string and a number and requires .value
 
-import { reactive, toRefs } from 'vue'; // reactive works only with an object and doesn't require .value
+import { reactive } from 'vue'; // reactive works only with an object and doesn't require .value
 export default {
   //   data() {
   //     return {
@@ -29,7 +31,7 @@ export default {
       age: 35
     });
 
-    const userRefs = toRefs(user);
+    // const userRefs = toRefs(user);
 
     setTimeout(() => {
       //   uName.value = 'Alex';
@@ -40,14 +42,19 @@ export default {
       user.age++;
     }, 2000);
 
+    function setAge() {
+      user.age++;
+    }
+
     return {
       //   userName: uName,
       //   userAge: uAge
       //   userName: user.value.name,
       //   userAge: user.value.age,
       user: user,
-      userName: userRefs.name,
-      userAge: userRefs.age
+      setAge: setAge
+      //   userName: userRefs.name,
+      //   userAge: userRefs.age
     };
   }
 };
