@@ -1,76 +1,54 @@
 <template>
-  <!-- <section class="container">
-    <h2>{{ userName }}</h2>
-    <h3>{{ userAge }}</h3>
-  </section> -->
-  <section class="container">
-    <h2>{{ user.name }}</h2>
-    <h3>{{ user.age }}</h3>
-    <!-- <button @click="user.age++">+1 Age</button> -->
-    <button @click="setAge">+1 Age</button>
-  </section>
+  <h2>My Course Goal</h2>
+  <!-- Task 1: Output your main course goal with help of the composition API -->
+  <!-- Don't hardcode it into the template, instead hardcode it into the JS code -->
+  <h3>OUTPUT COURSE GOAL</h3>
+  <ul class="container" v-if="isGoal.isGoal">
+    <li v-for="goal in goalData" :key="goal">{{ goal }}</li>
+  </ul>
+  <!-- Task 2: Toggle (show/ hide) the goal with help of the button  -->
+  <button @click="toggleGoal">Toggle Goal</button>
+  <!-- Task 3: Manage data in three ways -->
+  <!-- => Separate refs -->
+  <!-- => Ref Object -->
+  <!-- => Reactive Object -->
+  <!-- Task 4: Also solve the assignment with the Options API -->
 </template>
 
 <script>
-// import { ref } from 'vue';  // ref can work with a string and a number and requires .value
-
-import { reactive } from 'vue'; // reactive works only with an object and doesn't require .value
+import { reactive } from 'vue';
 export default {
-  //   data() {
-  //     return {
-  //       userName: 'Maximilian',
-  //     };
-  //   },
   setup() {
-    // const uName = ref('Alexander');
-    // const uAge = ref(36);
-
-    // const user = ref({
-    const user = reactive({
-      name: 'Alexander',
-      age: 35
+    const goalData = reactive({
+      goal1: 'Learn Vue.js',
+      goal2: 'Became an expert in Vue.js',
+      goal3: 'Learn React'
+    });
+    const isGoal = reactive({
+      isGoal: false
     });
 
-    // const userRefs = toRefs(user);
-
-    setTimeout(() => {
-      //   uName.value = 'Alex';
-      //   uAge.value++;
-      //   user.value.name = 'Alex';
-      //   user.value.age++;
-      user.name = 'Alex';
-      user.age++;
-    }, 2000);
-
-    function setAge() {
-      user.age++;
+    function toggleGoal() {
+      isGoal.isGoal = !isGoal.isGoal;
+      console.log(isGoal.isGoal);
     }
 
     return {
-      //   userName: uName,
-      //   userAge: uAge
-      //   userName: user.value.name,
-      //   userAge: user.value.age,
-      user: user,
-      setAge: setAge
-      //   userName: userRefs.name,
-      //   userAge: userRefs.age
+      goalData: goalData,
+      isGoal: isGoal,
+      toggleGoal: toggleGoal
     };
   }
 };
 </script>
 
 <style>
-* {
-  box-sizing: border-box;
-}
-
 html {
   font-family: sans-serif;
 }
-
 body {
-  margin: 0;
+  margin: 3rem;
+  text-align: center;
 }
 
 .container {
@@ -80,5 +58,12 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   padding: 1rem;
   text-align: center;
+}
+
+li {
+  list-style: none;
+  text-align: left;
+  margin-top: 5px;
+  font-size: 20px;
 }
 </style>
