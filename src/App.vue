@@ -1,80 +1,84 @@
 <template>
-  <header>
-    <h1>Expense Tracker</h1>
-  </header>
-  <section>
-    <div>Available Funds: {{ mainNumbers.availableFunds }}</div>
-    <div>Total Expenses: {{ mainNumbers.currentExpenses }}</div>
-    <hr />
-    <div>Funds left: {{ remainingFunds }}</div>
-  </section>
-  <section>
-    <form @submit.prevent="addExpense">
-      <div>
-        <label for="amount">Amount</label>
-        <input id="amount" type="number" v-model="mainNumbers.enteredExpense" />
-      </div>
-      <button>Add Expense</button>
-    </form>
+  <!-- <section class="container">
+    <h2>{{ userName }}</h2>
+    <h3>{{ userAge }}</h3>
+  </section> -->
+  <section class="container">
+    <h2>{{ user.name }}</h2>
+    <h3>{{ user.age }}</h3>
+    <!-- <button @click="user.age++">+1 Age</button> -->
+    <div>
+      <button @click="setAges">+1 Age</button>
+    </div>
+    <div>{{ fullName }}</div>
+    <!-- <input type="text" placeholder="First Name" @input="setFirstName" />
+    <input type="text" placeholder="Last Name" @input="setLastName" /> -->
+    <input type="text" placeholder="First Name" v-model="user.firstName" />
+    <input type="text" placeholder="Last Name" ref="lastNameInput" />
+    <button @click="setLastName">set Last Name</button>
   </section>
 </template>
 
 <script>
-import { reactive, computed, watch } from 'vue';
+// import { ref } from 'vue';  // ref can work with a string and a number and requires .value
+
+import { reactive, computed, watch, ref } from 'vue'; // reactive works only with an object and doesn't require .value
 export default {
   setup() {
-    const mainNumbers = reactive({
-      availableFunds: 100,
-      currentExpenses: 0,
-      enteredExpense: 0
+    const user = reactive({
+      name: 'Alexander',
+      age: 35,
+      firstName: '',
+      lastName: ''
     });
+    const userAge = ref(33);
+    const lastNameInput = ref(null);
 
-    const addExpense = () => {
-      mainNumbers.currentExpenses =
-        +mainNumbers.enteredExpense + +mainNumbers.currentExpenses;
+    const setLastName = function() {
+      user.lastName = lastNameInput.value.value;
     };
 
-    const remainingFunds = computed(function() {
-      return mainNumbers.availableFunds - mainNumbers.currentExpenses;
+    // function setFirstName(event) {
+    //   user.firstName = event.target.value;
+    // }
+
+    // function setLastName(event) {
+    //   user.lastName = event.target.value;
+    // }
+
+    // userAge is watched
+
+    const fullName = computed(function() {
+      return user.firstName + ' ' + user.lastName;
     });
 
-    watch(remainingFunds, function(val) {
-      if (val < 0) {
-        alert('You are broke!');
-      }
+    // setTimeout(() => {
+    //   user.name = 'Alex';
+    //   user.age++;
+    // }, 2000);
+
+    const setAges = function() {
+      //   userAge.value++;
+      user.age++;
+      return user.age;
+    };
+
+    watch([setAges, fullName], function(newValues, oldValues) {
+      console.log('old Value: ' + oldValues[0]);
+      console.log('new Value: ' + newValues[0]);
     });
 
     return {
-      mainNumbers,
-      addExpense,
-      remainingFunds
+      user,
+      setAges,
+      userAge,
+      //   setFirstName,
+      //   setLastName,
+      fullName,
+      setLastName,
+      lastNameInput
     };
   }
-
-  //   data() {
-  //     return {
-  //       availableFunds: 100,
-  //       currentExpenses: 0,
-  //       enteredExpense: 0
-  //     };
-  //   },
-  //   computed: {
-  //     remainingFunds() {
-  //       return this.availableFunds - this.currentExpenses;
-  //     }
-  //   },
-  //   methods: {
-  //     addExpense() {
-  //       this.currentExpenses = +this.enteredExpense + +this.currentExpenses;
-  //     }
-  //   },
-  //   watch: {
-  //     remainingFunds(val) {
-  //       if (val < 0) {
-  //         alert('You are broke!');
-  //       }
-  //     }
-  //   }
 };
 </script>
 
@@ -82,51 +86,21 @@ export default {
 * {
   box-sizing: border-box;
 }
+
 html {
   font-family: sans-serif;
 }
+
 body {
   margin: 0;
 }
-header {
-  width: 100%;
-  height: 5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #30006e;
-  color: white;
-}
-section {
-  margin: 2rem auto;
-  max-width: 35rem;
-  padding: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  border-radius: 12px;
-}
 
-form div {
-  margin: 1rem 0;
-}
-input {
-  width: 100%;
-  padding: 0.15rem;
-}
-label {
-  font-weight: bold;
-  margin: 0.5rem 0;
-}
-button {
-  background-color: #30006e;
-  border: 1px solid #30006e;
-  font: inherit;
-  cursor: pointer;
-  padding: 0.5rem 1.5rem;
-  color: white;
-}
-button:hover,
-button:active {
-  background-color: #5819ac;
-  border-color: #5819ac;
+.container {
+  margin: 3rem auto;
+  max-width: 30rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  text-align: center;
 }
 </style>
