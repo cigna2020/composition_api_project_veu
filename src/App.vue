@@ -11,8 +11,10 @@
       <button @click="setAge">+1 Age</button>
     </div>
     <div>{{ fullName }}</div>
-    <input type="text" placeholder="First Name" @input="setFirstName" />
-    <input type="text" placeholder="Last Name" @input="setLastName" />
+    <!-- <input type="text" placeholder="First Name" @input="setFirstName" />
+    <input type="text" placeholder="Last Name" @input="setLastName" /> -->
+    <input type="text" placeholder="First Name" v-model="user.firstName" />
+    <input type="text" placeholder="Last Name" v-model="user.lastName" />
   </section>
 </template>
 
@@ -29,13 +31,13 @@ export default {
       lastName: ''
     });
 
-    function setFirstName(event) {
-      user.firstName = event.target.value;
-    }
+    // function setFirstName(event) {
+    //   user.firstName = event.target.value;
+    // }
 
-    function setLastName(event) {
-      user.lastName = event.target.value;
-    }
+    // function setLastName(event) {
+    //   user.lastName = event.target.value;
+    // }
 
     const fullName = computed(function() {
       return user.firstName + ' ' + user.lastName;
@@ -53,8 +55,8 @@ export default {
     return {
       user,
       setAge,
-      setFirstName,
-      setLastName,
+      //   setFirstName,
+      //   setLastName,
       fullName
     };
   }
