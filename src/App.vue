@@ -3,9 +3,10 @@
     <h2>{{ userName }}</h2>
     <h3>{{ userAge }}</h3>
   </section> -->
+  <user-app :first-name="firstName" :last-name="lastName"></user-app>
   <section class="container">
-    <h2>{{ user.name }}</h2>
-    <h3>{{ user.age }}</h3>
+    <!-- <h2>{{ user.name }}</h2>
+    <h3>{{ user.age }}</h3> -->
     <!-- <button @click="user.age++">+1 Age</button> -->
     <div>
       <button @click="setAges">+1 Age</button>
@@ -20,10 +21,14 @@
 </template>
 
 <script>
+import UserApp from './component/UserApp';
 // import { ref } from 'vue';  // ref can work with a string and a number and requires .value
 
 import { reactive, computed, watch, ref } from 'vue'; // reactive works only with an object and doesn't require .value
 export default {
+  components: {
+    UserApp
+  },
   setup() {
     const user = reactive({
       name: 'Alexander',
@@ -33,6 +38,8 @@ export default {
     });
     const userAge = ref(33);
     const lastNameInput = ref(null);
+    const firstName = 'Alexander';
+    const lastName = 'Tsyhan';
 
     const setLastName = function() {
       user.lastName = lastNameInput.value.value;
@@ -76,7 +83,9 @@ export default {
       //   setLastName,
       fullName,
       setLastName,
-      lastNameInput
+      lastNameInput,
+      firstName,
+      lastName
     };
   }
 };
