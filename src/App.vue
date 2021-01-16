@@ -8,7 +8,7 @@
     <h3>{{ user.age }}</h3>
     <!-- <button @click="user.age++">+1 Age</button> -->
     <div>
-      <button @click="setAge">+1 Age</button>
+      <button @click="setAges">+1 Age</button>
     </div>
     <div>{{ fullName }}</div>
     <!-- <input type="text" placeholder="First Name" @input="setFirstName" />
@@ -21,7 +21,7 @@
 <script>
 // import { ref } from 'vue';  // ref can work with a string and a number and requires .value
 
-import { reactive, computed } from 'vue'; // reactive works only with an object and doesn't require .value
+import { reactive, computed, watch, ref } from 'vue'; // reactive works only with an object and doesn't require .value
 export default {
   setup() {
     const user = reactive({
@@ -30,6 +30,7 @@ export default {
       firstName: '',
       lastName: ''
     });
+    const userAge = ref(33);
 
     // function setFirstName(event) {
     //   user.firstName = event.target.value;
@@ -39,22 +40,32 @@ export default {
     //   user.lastName = event.target.value;
     // }
 
+    // userAge is watched
+
     const fullName = computed(function() {
       return user.firstName + ' ' + user.lastName;
     });
 
-    setTimeout(() => {
-      user.name = 'Alex';
-      user.age++;
-    }, 2000);
+    // setTimeout(() => {
+    //   user.name = 'Alex';
+    //   user.age++;
+    // }, 2000);
 
-    function setAge() {
+    const setAges = function() {
+      //   userAge.value++;
       user.age++;
-    }
+      return user.age;
+    };
+
+    watch([setAges, fullName], function(newValues, oldValues) {
+      console.log('old Value: ' + oldValues[0]);
+      console.log('new Value: ' + newValues[0]);
+    });
 
     return {
       user,
-      setAge,
+      setAges,
+      userAge,
       //   setFirstName,
       //   setLastName,
       fullName
